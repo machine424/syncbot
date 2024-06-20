@@ -3,11 +3,28 @@ name: Prometheus merger
 on:
   workflow_dispatch:
   workflow_call:
+    # TODO: could we do without redefining all of this????
     inputs:
       upstream-version-pattern:
         description: XXX TODO
         required: true
         type: string
+    secrets:
+      cloner-app-id:
+        description: Github ID of cloner app
+        required: true
+      cloner-app-private-key:
+        description: Github private key of cloner app
+        required: true
+      pr-app-id:
+        description: Github ID of PR creation app
+        required: true
+      pr-app-private-key:
+        description: Github private key of PR creation app
+        required: true
+      slack-webhook-url:
+        description: Slack webhook URL to send notification
+        required: true
   schedule:
     - cron: '0 0 * * *' #@daily
   pull_request:
