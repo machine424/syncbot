@@ -18,7 +18,7 @@ on:
       upstream-version-regex:
         description: XXX TODO
         required: false
-        default: '^\d+\.\d+\.\d+$'
+        default: '^v\d+\.\d+\.\d+$'
         type: string
       downstream:
         description: Downstream repo path in owner/repo format
@@ -81,7 +81,6 @@ jobs:
           repository: ${{ inputs.upstream }}
           releases-only: true
           regex: ${{ inputs.upstream-version-regex }}
-          prefix: "v"
       - name: Find github org name from repo name
         id: org
         run: |
