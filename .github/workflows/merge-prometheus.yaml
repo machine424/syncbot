@@ -5,7 +5,7 @@ on:
   workflow_call:
     # TODO: could we do without redefining all of this????
     inputs:
-      upstream-version-pattern:
+      upstream-version-regex:
         description: XXX TODO
         required: true
         type: string
