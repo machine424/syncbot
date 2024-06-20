@@ -3,6 +3,11 @@ name: Prometheus merger
 on:
   workflow_dispatch:
   workflow_call:
+    inputs:
+      upstream-version-pattern:
+        description: XXX TODO
+        required: true
+        type: string
   schedule:
     - cron: '0 0 * * *' #@daily
   pull_request:
