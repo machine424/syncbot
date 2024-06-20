@@ -19,7 +19,7 @@ on:
     - '.github/workflows/test-rc-prometheus.yaml'
 jobs:
   prometheus-rc-test:
-  uses: ./.github/workflows/merge-prometheus.yaml
+    uses: ./.github/workflows/merge-prometheus.yaml
     # uses: ./.github/workflows/merge-flow.yaml
     with:
       upstream-version-pattern: '^\d+\.\d+\.\d+-rc\.\d+$'

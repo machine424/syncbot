@@ -75,9 +75,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Perform merge operation
     steps:
-      - name: Get latest upstream tag
+      - uses: oprypin/find-latest-tag@v1
         id: upstream
-        uses: oprypin/find-latest-tag@v1
         with:
           repository: ${{ inputs.upstream }}
           releases-only: true
