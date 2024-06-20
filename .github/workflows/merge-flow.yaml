@@ -77,7 +77,7 @@ jobs:
     steps:
       - name: Get latest upstream tag
         id: upstream
-        uses: oprypin/find-latest-tag
+        uses: oprypin/find-latest-tag@v1
         with:
           repository: ${{ inputs.upstream }}
           releases-only: true
