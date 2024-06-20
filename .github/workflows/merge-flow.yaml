@@ -18,7 +18,7 @@ on:
       upstream-version-pattern:
         description: XXX TODO
         required: false
-        default: "^\d+\.\d+\.\d+$"
+        default: '^\d+\.\d+\.\d+$'
         type: string
       downstream:
         description: Downstream repo path in owner/repo format

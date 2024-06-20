@@ -1,5 +1,7 @@
 name: Prometheus RC versions tester
 
+# TODO: put in subfolder
+
 on:
   workflow_dispatch:
   schedule:
@@ -20,7 +22,7 @@ jobs:
   uses: ./.github/workflows/merge-prometheus.yaml
     # uses: ./.github/workflows/merge-flow.yaml
     with:
-      upstream-version-pattern: "^\d+\.\d+\.\d+-rc\.\d+$"
+      upstream-version-pattern: '^\d+\.\d+\.\d+-rc\.\d+$'
 
     secrets:
       pr-app-id: ${{ secrets.APP_ID }}
