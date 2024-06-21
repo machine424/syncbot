@@ -1,6 +1,4 @@
-name: Prometheus RC versions tester
-
-# TODO: put in subfolder??
+name: Prometheus rc versions tester
 
 on:
   workflow_dispatch:
@@ -9,7 +7,6 @@ on:
   pull_request:
     paths:
     - '.github/workflows/merge-flow.yaml'
-    # TODO: test using prom merge
     - '.github/workflows/merge-prometheus.yaml'
     - '.github/workflows/test-rc-prometheus.yaml'
   push:
@@ -20,10 +17,12 @@ on:
 jobs:
   prometheus-rc-test:
     uses: ./.github/workflows/merge-prometheus.yaml
-    # uses: ./.github/workflows/merge-flow.yaml
     with:
       upstream-version-regex: '^v\d+\.\d+\.\d+-rc\.\d+$'
       sandbox-branch-prefix: automated-rc-test
+      # The PRs are only meant to run tests
+      pr-labels: 'do-not-merge/hold'
+      pr-title-prefix: 'FOR TESTS ONLY:'
 
     secrets:
       pr-app-id: ${{ secrets.APP_ID }}

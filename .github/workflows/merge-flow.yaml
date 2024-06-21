@@ -58,6 +58,16 @@ on:
         required: false
         default: ''
         type: string
+      pr-labels:
+        description: XXX
+        required: false
+        default: ''
+        type: string
+      pr-title-prefix:
+        description: XXX
+        required: false
+        default: '[bot]'
+        type: string
     secrets:
       cloner-app-id:
         description: Github ID of cloner app
@@ -196,6 +206,10 @@ jobs:
           fi
       - name: go mod tidy + vendor
         run: |
+          echo "${{ inputs.pr-labels }}"
+          echo "${{ inputs.pr-title-prefix }}"
+          echo "${{ inputs.sandbox-branch-prefix }}"
+
           go mod tidy
           go mod vendor
           git add go.mod go.sum vendor
@@ -211,9 +225,7 @@ jobs:
             git diff --cached --exit-code || git commit -s -m "[bot] update rh-manifest.txt"
           fi
       - name: Get auth token to create pull request for ${{ inputs.downstream }}
-        # TEST
-        if: ${{ inputs.upstream == 'prometheus/prometheus'}}
-        # if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request'
         id: pr
         uses: getsentry/action-github-app-token@v1
         with:
@@ -221,8 +233,7 @@ jobs:
           private_key: ${{ secrets.pr-app-private-key }}
           scope: ${{ steps.org.outputs.downstream }}
       - name: Get auth token to push to ${{ inputs.sandbox }}
-        if: ${{ inputs.upstream == 'prometheus/prometheus'}}
-        # if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request'
         id: cloner
         uses: getsentry/action-github-app-token@v1
         with:
@@ -230,12 +241,11 @@ jobs:
           private_key: ${{ secrets.cloner-app-private-key }}
           scope: ${{ steps.org.outputs.sandbox }}
       - name: Create Pull Request
-        if: ${{ inputs.upstream == 'prometheus/prometheus'}}
-        # if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request'
         uses: rhobs/create-pull-request@v3
         id: create-pr
         with:
-          title: "[bot] Bump ${{ inputs.downstream }} to ${{ steps.upstream.outputs.tag }}"
+          title: "${{ inputs.pr-title-prefix }} Bump ${{ inputs.downstream }} to ${{ steps.upstream.outputs.tag }}"
           body: |
             ## Description
             This is an automated version bump from CI.
@@ -258,6 +268,7 @@ jobs:
               git diff --cached --exit-code || git commit -s -m "[bot] update rh-manifest.txt"
             fi
             ```
+          labels: ${{ inputs.pr-labels }}
           author: 'github-actions[bot]<github-actions[bot]@users.noreply.github.com>'
           committer: 'github-actions[bot]<github-actions[bot]@users.noreply.github.com>'
           signoff: true

@@ -12,6 +12,14 @@ on:
         description: XXX
         required: true
         type: string
+      pr-labels:
+        description: XXX
+        required: true
+        type: string
+      pr-title-prefix:
+        description: XXX
+        required: true
+        type: string
     secrets:
       cloner-app-id:
         description: Github ID of cloner app
@@ -47,6 +55,8 @@ jobs:
       downstream: openshift/prometheus
       sandbox: rhobs/prometheus
       sandbox-branch-prefix: ${{ inputs.sandbox-branch-prefix }}
+      pr-labels: ${{ inputs.pr-labels }}
+      pr-title-prefix: ${{ inputs.pr-title-prefix }}
       go-version: "1.21"
       restore-upstream: >-
         CHANGELOG.md
