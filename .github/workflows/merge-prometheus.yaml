@@ -12,7 +12,7 @@ on:
       sandbox-branch-prefix:
         description: XXX
         required: false
-        default: automated-updates
+        default: 'automated-updates'
         type: string
       pr-labels:
         description: XXX

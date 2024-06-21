@@ -36,7 +36,7 @@ on:
       sandbox-branch-prefix:
         description: XXX
         required: false
-        default: automated-updates
+        default: 'automated-updates'
         type: string
       restore-upstream:
         description: List of files to be reset using upstream content on merge conflict.

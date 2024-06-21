@@ -19,7 +19,7 @@ jobs:
     uses: ./.github/workflows/merge-prometheus.yaml
     with:
       upstream-version-regex: '^v\d+\.\d+\.\d+-rc\.\d+$'
-      sandbox-branch-prefix: automated-rc-test
+      sandbox-branch-prefix: automated-rc-tests
       # The PRs are only meant to run tests
       pr-labels: 'do-not-merge/hold'
       pr-title-prefix: 'FOR TESTS ONLY:'
