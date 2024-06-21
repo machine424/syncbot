@@ -1,6 +1,6 @@
 name: Prometheus RC versions tester
 
-# TODO: put in subfolder
+# TODO: put in subfolder??
 
 on:
   workflow_dispatch:
@@ -23,6 +23,7 @@ jobs:
     # uses: ./.github/workflows/merge-flow.yaml
     with:
       upstream-version-regex: '^v\d+\.\d+\.\d+-rc\.\d+$'
+      sandbox-branch-prefix: automated-rc-test
 
     secrets:
       pr-app-id: ${{ secrets.APP_ID }}

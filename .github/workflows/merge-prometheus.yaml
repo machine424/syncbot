@@ -3,10 +3,13 @@ name: Prometheus merger
 on:
   workflow_dispatch:
   workflow_call:
-    # TODO: could we do without redefining all of this????
     inputs:
       upstream-version-regex:
-        description: XXX TODO
+        description: XXX
+        required: true
+        type: string
+      sandbox-branch-prefix:
+        description: XXX
         required: true
         type: string
     secrets:
@@ -43,6 +46,7 @@ jobs:
       upstream-version-regex: ${{ inputs.upstream-version-regex }}
       downstream: openshift/prometheus
       sandbox: rhobs/prometheus
+      sandbox-branch-prefix: ${{ inputs.sandbox-branch-prefix }}
       go-version: "1.21"
       restore-upstream: >-
         CHANGELOG.md

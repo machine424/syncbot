@@ -16,7 +16,7 @@ on:
         required: true
         type: string
       upstream-version-regex:
-        description: XXX TODO
+        description: XXX
         required: false
         default: '^v\d+\.\d+\.\d+$'
         type: string
@@ -32,6 +32,11 @@ on:
       sandbox:
         description: Sandbox repo path in owner/repo format. Used as a base to create PR against downstream.
         required: true
+        type: string
+      sandbox-branch-prefix:
+        description: XXX
+        required: false
+        default: automated-updates
         type: string
       restore-upstream:
         description: List of files to be reset using upstream content on merge conflict.
@@ -206,7 +211,9 @@ jobs:
             git diff --cached --exit-code || git commit -s -m "[bot] update rh-manifest.txt"
           fi
       - name: Get auth token to create pull request for ${{ inputs.downstream }}
-        if: github.event_name != 'pull_request'
+        # TEST
+        if: ${{ inputs.upstream == 'prometheus/prometheus'}}
+        # if: github.event_name != 'pull_request'
         id: pr
         uses: getsentry/action-github-app-token@v1
         with:
@@ -214,7 +221,8 @@ jobs:
           private_key: ${{ secrets.pr-app-private-key }}
           scope: ${{ steps.org.outputs.downstream }}
       - name: Get auth token to push to ${{ inputs.sandbox }}
-        if: github.event_name != 'pull_request'
+        if: ${{ inputs.upstream == 'prometheus/prometheus'}}
+        # if: github.event_name != 'pull_request'
         id: cloner
         uses: getsentry/action-github-app-token@v1
         with:
@@ -222,7 +230,8 @@ jobs:
           private_key: ${{ secrets.cloner-app-private-key }}
           scope: ${{ steps.org.outputs.sandbox }}
       - name: Create Pull Request
-        if: github.event_name != 'pull_request'
+        if: ${{ inputs.upstream == 'prometheus/prometheus'}}
+        # if: github.event_name != 'pull_request'
         uses: rhobs/create-pull-request@v3
         id: create-pr
         with:
@@ -252,7 +261,7 @@ jobs:
           author: 'github-actions[bot]<github-actions[bot]@users.noreply.github.com>'
           committer: 'github-actions[bot]<github-actions[bot]@users.noreply.github.com>'
           signoff: true
-          branch: automated-updates-${{ inputs.downstream-branch }}
+          branch: ${{ inputs.sandbox-branch-prefix }}-${{ inputs.downstream-branch }}
           delete-branch: true
           token: ${{ steps.pr.outputs.token }}
           push-to-fork: ${{ inputs.sandbox }}
