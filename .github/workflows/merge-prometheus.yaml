@@ -6,19 +6,23 @@ on:
     inputs:
       upstream-version-regex:
         description: XXX
-        required: true
+        required: false
+        default: '^v\d+\.\d+\.\d+$'
         type: string
       sandbox-branch-prefix:
         description: XXX
-        required: true
+        required: false
+        default: automated-updates
         type: string
       pr-labels:
         description: XXX
-        required: true
+        required: false
+        default: ''
         type: string
       pr-title-prefix:
         description: XXX
-        required: true
+        required: false
+        default: ''
         type: string
     secrets:
       cloner-app-id:
